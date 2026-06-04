@@ -129,7 +129,18 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         duration: 0.5,
         ease: "back.in(1.7)",
       })
-      .to(cloudsRef.current.position, { z: 5, duration: 0.5 });
+      .to(cloudsRef.current.position, { z: 5, duration: 0.5 })
+      .to(
+        wordsRef.current.children.map((word) => word.scale),
+        {
+          x: 0,
+          y: 0,
+          z: 0,
+          duration: 0.15,
+          stagger: 0.05,
+        },
+        0.85,
+      );
   });
 
   return (

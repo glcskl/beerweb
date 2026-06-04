@@ -3,10 +3,13 @@
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
 import { Suspense } from "react";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type Props = {};
 
 export default function ViewCanvas({}: Props) {
+  const isMobile = useMediaQuery("(max-width: 767px)", false);
+
   return (
     <Canvas
       style={{
@@ -18,9 +21,12 @@ export default function ViewCanvas({}: Props) {
         pointerEvents: "none",
         zIndex: 30,
       }}
-      shadows
-      dpr={[1, 1.5]}
-      gl={{ antialias: true }}
+      shadows={!isMobile}
+      dpr={isMobile ? [1, 1] : [1, 1.5]}
+      gl={{
+        antialias: !isMobile,
+        powerPreference: isMobile ? "low-power" : "high-performance",
+      }}
       camera={{
         fov: 30,
       }}

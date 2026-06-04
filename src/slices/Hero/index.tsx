@@ -1,8 +1,7 @@
 "use client";
 
-import { asText, Content } from "@prismicio/client";
-import { PrismicNextImage } from "@prismicio/next";
-import { PrismicRichText, SliceComponentProps } from "@prismicio/react";
+import { asText } from "@prismicio/client";
+import { PrismicRichText } from "@prismicio/react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -17,10 +16,24 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-/**
- * Props for `Hero`.
- */
-export type HeroProps = SliceComponentProps<Content.HeroSlice>;
+type HeroSlice = {
+  variation: string;
+  slice_type: string;
+  primary: {
+    heading: any;
+    subheading: any;
+    body: any;
+    button_text: string | null;
+    button_link: any;
+    cans_image?: any;
+    second_heading: any;
+    second_body: any;
+  };
+};
+
+type HeroProps = {
+  slice: HeroSlice;
+};
 
 /**
  * Component for "Hero" Slices.
@@ -125,7 +138,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
           <div className="grid auto-rows-min place-items-center text-center">
             <h1 className="hero-header text-7xl font-black uppercase leading-[.8] text-[#E5A04A] md:text-[9rem] lg:text-[13rem]">
               <TextSplitter
-                text={asText(slice.primary.heading)}
+                text={asText(slice.primary.heading) ?? ""}
                 wordDisplayStyle="block"
                 className="hero-header-word"
               />
@@ -146,13 +159,9 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
         </div>
 
         <div className="text-side relative z-[80] grid h-screen items-center gap-4 md:grid-cols-2">
-          <PrismicNextImage
-            className="w-full md:hidden"
-            field={slice.primary.cans_image}
-          />
           <div>
             <h2 className="text-side-heading text-balance text-6xl font-black uppercase text-[#E5A04A] lg:text-8xl">
-              <TextSplitter text={asText(slice.primary.second_heading)} />
+              <TextSplitter text={asText(slice.primary.second_heading) ?? ""} />
             </h2>
             <div className="text-side-body mt-4 max-w-xl text-balance text-xl font-normal text-[#F5E8D0]">
               <PrismicRichText field={slice.primary.second_body} />

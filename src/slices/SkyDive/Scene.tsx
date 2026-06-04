@@ -198,64 +198,20 @@ const ProceduralCloud = forwardRef<THREE.Group, ProceduralCloudProps>(
     return (
       <group ref={ref}>
         <mesh position={[0, 0, 0]}>
-          <sphereGeometry args={[1.2, 16, 12]} />
-          <meshStandardMaterial
-            color="#F5E8D0"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.85}
-          />
+          <sphereGeometry args={[1.2, 12, 8]} />
+          <meshLambertMaterial color="#F5E8D0" />
         </mesh>
         <mesh position={[0.9, 0.2, 0.1]}>
-          <sphereGeometry args={[0.8, 16, 12]} />
-          <meshStandardMaterial
-            color="#F5E8D0"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.85}
-          />
+          <sphereGeometry args={[0.8, 12, 8]} />
+          <meshLambertMaterial color="#F5E8D0" />
         </mesh>
         <mesh position={[-0.8, 0.1, -0.2]}>
-          <sphereGeometry args={[0.9, 16, 12]} />
-          <meshStandardMaterial
-            color="#F5E8D0"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.85}
-          />
+          <sphereGeometry args={[0.9, 12, 8]} />
+          <meshLambertMaterial color="#F5E8D0" />
         </mesh>
-        <mesh position={[0.3, 0.7, 0.2]}>
-          <sphereGeometry args={[0.7, 16, 12]} />
-          <meshStandardMaterial
-            color="#F5E8D0"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.85}
-          />
-        </mesh>
-        <mesh position={[-0.4, -0.5, 0.1]}>
-          <sphereGeometry args={[0.8, 16, 12]} />
-          <meshStandardMaterial
-            color="#F5E8D0"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.85}
-          />
-        </mesh>
-        <mesh position={[0.6, -0.4, -0.1]}>
-          <sphereGeometry args={[0.6, 16, 12]} />
-          <meshStandardMaterial
-            color="#F5E8D0"
-            roughness={1}
-            metalness={0}
-            transparent
-            opacity={0.85}
-          />
+        <mesh position={[0.4, 0.6, 0.2]}>
+          <sphereGeometry args={[0.7, 12, 8]} />
+          <meshLambertMaterial color="#F5E8D0" />
         </mesh>
       </group>
     );

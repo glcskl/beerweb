@@ -17,7 +17,7 @@ type SkyDiveProps = {
   flavor: Content.SkyDiveSliceDefaultPrimary["flavor"];
 };
 
-export default function Scene({ flavor }: SkyDiveProps) {
+export default function Scene({ sentence, flavor }: SkyDiveProps) {
   const groupRef = useRef<THREE.Group>(null);
   const canRef = useRef<THREE.Group>(null);
   const cloud1Ref = useRef<THREE.Group>(null);
@@ -76,6 +76,11 @@ export default function Scene({ flavor }: SkyDiveProps) {
     animateCloud(cloud1Ref.current, startY1, endY1, 0);
     animateCloud(cloud2Ref.current, startY2, endY2, DURATION / 2);
 
+    const textEl = document.querySelector<HTMLHeadingElement>(".skydive h2");
+    if (textEl) {
+      gsap.set(textEl, { opacity: 0, y: 40 });
+    }
+
     const scrollTl = gsap.timeline({
       scrollTrigger: {
         trigger: ".skydive",
@@ -105,6 +110,22 @@ export default function Scene({ flavor }: SkyDiveProps) {
         ease: "back.in(1.7)",
       })
       .to(cloudsRef.current.position, { z: 5, duration: 0.5 });
+
+    if (textEl) {
+      scrollTl
+        .to(textEl, {
+          opacity: 1,
+          y: 0,
+          duration: 0.15,
+          ease: "power2.out",
+        }, 0.05)
+        .to(textEl, {
+          opacity: 0,
+          y: -40,
+          duration: 0.15,
+          ease: "power2.in",
+        }, 0.75);
+    }
   });
 
   return (

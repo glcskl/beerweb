@@ -10,6 +10,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import FloatingCan from "@/components/FloatingCan";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Bubbles } from "../Hero/Bubbles";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -38,10 +39,17 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
 
     gsap.set(canRef.current.position, { x: -1.04, y: -3.86, z: 0 });
     gsap.set(cloudsRef.current.position, { z: 0, y: 0, x: 0 });
-    gsap.set(
-      wordsRef.current.children.map((word) => word.position),
-      { x: 0, y: 0, z: 0 },
-    );
+
+    const wordPositions: Array<[number, number, number]> = [
+      [-2.4, 2.2, 0],
+      [2.0, 1.4, 0.5],
+      [-1.8, -1.0, 0.3],
+      [2.2, -2.4, 0.7],
+    ];
+    wordsRef.current.children.forEach((word, i) => {
+      const [x, y, z] = wordPositions[i] || [0, 0, 0];
+      gsap.set(word.position, { x, y, z });
+    });
 
     gsap.to(canRef.current.rotation, {
       y: Math.PI * 2,
@@ -110,7 +118,7 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         {
           keyframes: [
             { x: 0, y: 0, z: -1 },
-            { x: -1, y: 1, z: -7 },
+            { x: -2, y: 1, z: -8 },
           ],
           stagger: 0.3,
         },
@@ -177,6 +185,8 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
       <group ref={wordsRef}>
         {sentence && <ThreeText sentence={sentence} color="#E5A04A" />}
       </group>
+
+      <Bubbles count={80} speed={1.2} bubbleSize={0.04} opacity={0.35} />
 
       <ambientLight intensity={2.5} color="#F5E8D0" />
       <directionalLight position={[5, 5, 5]} intensity={1.2} color="#F5E8D0" />

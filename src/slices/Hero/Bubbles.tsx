@@ -15,6 +15,10 @@ export function Bubbles({
   bubbleSize = 0.05,
   opacity = 0.5,
   repeat = true,
+  spreadX = 4,
+  spreadZ = 4,
+  yMin = -2,
+  yMax = 4,
 }) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
 
@@ -42,9 +46,9 @@ export function Bubbles({
     // Create {count} number of bubbles in random locations
     for (let i = 0; i < count; i++) {
       o.position.set(
-        gsap.utils.random(-4, 4),
-        gsap.utils.random(-4, 4),
-        gsap.utils.random(-4, 4),
+        gsap.utils.random(-spreadX, spreadX),
+        gsap.utils.random(yMin, yMax),
+        gsap.utils.random(-spreadZ, spreadZ),
       );
 
       // Update matrix so that the position is applied
@@ -61,7 +65,7 @@ export function Bubbles({
       mesh.geometry.dispose();
       (mesh.material as THREE.Material).dispose();
     };
-  }, [count, minSpeed, maxSpeed]);
+    }, [count, minSpeed, maxSpeed, spreadX, spreadZ, yMin, yMax]);
 
   // useFrame runs on every animation frame
   useFrame(() => {
@@ -79,10 +83,10 @@ export function Bubbles({
       o.position.y += bubbleSpeed.current[i];
 
       // Reset bubble position if it moves off the top of the screen
-      if (o.position.y > 4 && repeat) {
-        o.position.y = -2; // Reset to bottom
-        o.position.x = gsap.utils.random(-4, 4);
-        o.position.z = gsap.utils.random(0, 8);
+      if (o.position.y > yMax && repeat) {
+        o.position.y = yMin; // Reset to bottom
+        o.position.x = gsap.utils.random(-spreadX, spreadX);
+        o.position.z = gsap.utils.random(-spreadZ, spreadZ);
       }
 
       o.updateMatrix();

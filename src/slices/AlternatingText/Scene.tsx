@@ -9,6 +9,7 @@ import { useGSAP } from "@gsap/react";
 
 import FloatingCan from "@/components/FloatingCan";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { Bubbles } from "../Hero/Bubbles";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -68,13 +69,55 @@ export default function Scene({}: Props) {
   );
 
   return (
-    <group
-      ref={canRef}
-      position-x={isDesktop ? 1 : 0}
-      rotation-y={isDesktop ? -0.3 : 0}
-    >
-      <FloatingCan flavor="strawberryLemonade" />
-      <Environment files={"/hdr/lobby.hdr"} environmentIntensity={1.5} />
+    <group>
+      {/* Bubbles for section 0 */}
+      <group position={[0, 0, 0]}>
+        <Bubbles
+          count={60}
+          speed={1.2}
+          bubbleSize={0.04}
+          opacity={0.3}
+          spreadX={4}
+          spreadZ={2}
+          yMin={-2}
+          yMax={2}
+        />
+      </group>
+      {/* Bubbles for section 1 */}
+      <group position={[0, -8, 0]}>
+        <Bubbles
+          count={60}
+          speed={1.5}
+          bubbleSize={0.045}
+          opacity={0.32}
+          spreadX={4}
+          spreadZ={2}
+          yMin={-2}
+          yMax={2}
+        />
+      </group>
+      {/* Bubbles for section 2 */}
+      <group position={[0, -16, 0]}>
+        <Bubbles
+          count={60}
+          speed={1.3}
+          bubbleSize={0.04}
+          opacity={0.28}
+          spreadX={4}
+          spreadZ={2}
+          yMin={-2}
+          yMax={2}
+        />
+      </group>
+
+      <group
+        ref={canRef}
+        position-x={isDesktop ? 1 : 0}
+        rotation-y={isDesktop ? -0.3 : 0}
+      >
+        <FloatingCan flavor="strawberryLemonade" />
+        <Environment files={"/hdr/lobby.hdr"} environmentIntensity={1.5} />
+      </group>
     </group>
   );
 }

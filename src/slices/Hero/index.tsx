@@ -105,7 +105,7 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
   return (
     <Bounded
       data-slice-type={slice.slice_type}
-      data-slice-variation={slice.slice_variation}
+      data-slice-variation={slice.variation}
       className="hero"
     >
       <View

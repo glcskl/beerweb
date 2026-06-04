@@ -1,9 +1,14 @@
 import localFont from "next/font/local";
+import dynamic from "next/dynamic";
 
 import "./app.css";
 import Header from "@/components/Header";
-import ViewCanvas from "@/components/ViewCanvas";
 import Footer from "@/components/Footer";
+
+const ViewCanvas = dynamic(
+  () => import("@/components/ViewCanvas").then((mod) => mod.default),
+  { ssr: false },
+);
 
 const alpino = localFont({
   src: "../../public/fonts/Alpino-Variable.woff2",

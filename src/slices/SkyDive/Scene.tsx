@@ -1,7 +1,7 @@
 "use client";
 
 import { Content } from "@prismicio/client";
-import { Cloud, Clouds, Text } from "@react-three/drei";
+import { Cloud, Clouds } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -9,7 +9,6 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import FloatingCan from "@/components/FloatingCan";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -18,19 +17,17 @@ type SkyDiveProps = {
   flavor: Content.SkyDiveSliceDefaultPrimary["flavor"];
 };
 
-export default function Scene({ sentence, flavor }: SkyDiveProps) {
+export default function Scene({ flavor }: SkyDiveProps) {
   const groupRef = useRef<THREE.Group>(null);
   const canRef = useRef<THREE.Group>(null);
   const cloud1Ref = useRef<THREE.Group>(null);
   const cloud2Ref = useRef<THREE.Group>(null);
   const cloudsRef = useRef<THREE.Group>(null);
-  const wordsRef = useRef<THREE.Group>(null);
 
   useGSAP(() => {
     if (
       !cloudsRef.current ||
       !canRef.current ||
-      !wordsRef.current ||
       !cloud1Ref.current ||
       !cloud2Ref.current
     )
@@ -38,17 +35,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
 
     gsap.set(canRef.current.position, { x: -1.04, y: -3.86, z: 0 });
     gsap.set(cloudsRef.current.position, { z: 0, y: 0, x: 0 });
-
-    const wordPositions: Array<[number, number, number]> = [
-      [-1.5, 0, 0],
-      [-0.4, 0, 0],
-      [0.6, 0, 0],
-      [1.6, 0, 0],
-    ];
-    wordsRef.current.children.forEach((word, i) => {
-      const [x, y, z] = wordPositions[i] || [0, 0, 0];
-      gsap.set(word.position, { x, y, z });
-    });
 
     gsap.to(canRef.current.rotation, {
       y: Math.PI * 2,
@@ -112,44 +98,18 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         duration: 0.3,
         ease: "back.out(1.7)",
       }, 0)
-      .to(
-        wordsRef.current.children.map((word) => word.position),
-        {
-          keyframes: [
-            { x: 0, y: 0, z: -1 },
-            { x: -2, y: 0, z: -8 },
-          ],
-          stagger: 0.3,
-        },
-        0,
-      )
       .to(canRef.current.position, {
         x: 1.04,
         y: 3.86,
         duration: 0.5,
         ease: "back.in(1.7)",
       })
-      .to(cloudsRef.current.position, { z: 5, duration: 0.5 })
-      .to(
-        wordsRef.current.children.map((word) => word.scale),
-        {
-          x: 0,
-          y: 0,
-          z: 0,
-          duration: 0.15,
-          stagger: 0.05,
-        },
-        0.85,
-      );
+      .to(cloudsRef.current.position, { z: 5, duration: 0.5 });
   });
 
   return (
     <group ref={groupRef}>
-      <Clouds
-        texture="/textures/cloud.png"
-        limit={400}
-        range={50}
-      >
+      <Clouds texture="/textures/cloud.png" limit={400} range={50}>
         <group ref={cloudsRef}>
           <group ref={cloud1Ref}>
             <Cloud
@@ -192,39 +152,9 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         </FloatingCan>
       </group>
 
-      <group ref={wordsRef}>
-        {sentence && <ThreeText sentence={sentence} color="#E5A04A" />}
-      </group>
-
       <ambientLight intensity={2.5} color="#F5E8D0" />
       <directionalLight position={[5, 5, 5]} intensity={1.2} color="#F5E8D0" />
       <directionalLight position={[-5, -3, 2]} intensity={0.6} color="#E5A04A" />
     </group>
   );
-}
-
-function ThreeText({
-  sentence,
-  color = "white",
-}: {
-  sentence: string;
-  color?: string;
-}) {
-  const words = sentence.toUpperCase().split(" ");
-  const isDesktop = useMediaQuery("(min-width: 950px)", true);
-
-  return words.map((word: string, wordIndex: number) => (
-    <Text
-      key={`${wordIndex}-${word}`}
-      scale={isDesktop ? 0.32 : 0.22}
-      color={color}
-      font="/fonts/Alpino-Variable.woff"
-      fontWeight={900}
-      anchorX={"center"}
-      anchorY={"middle"}
-      characters="ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ!,.?'"
-    >
-      {word}
-    </Text>
-  ));
 }

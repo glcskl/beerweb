@@ -1,7 +1,7 @@
 "use client";
 
 import { Content } from "@prismicio/client";
-import { Cloud, Environment, Text } from "@react-three/drei";
+import { Cloud, Clouds, Environment, Text } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -38,7 +38,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
 
     gsap.set(canRef.current.position, { x: -1.04, y: -3.86, z: 0 });
     gsap.set(cloudsRef.current.position, { z: 0, y: 0, x: 0 });
-
     gsap.set(
       wordsRef.current.children.map((word) => word.position),
       { x: 0, y: 0, z: 0 },
@@ -128,6 +127,41 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
 
   return (
     <group ref={groupRef}>
+      <Clouds
+        texture="/textures/cloud.png"
+        limit={400}
+        range={50}
+      >
+        <group ref={cloudsRef}>
+          <group ref={cloud1Ref}>
+            <Cloud
+              seed={1}
+              segments={20}
+              bounds={[3, 1.5, 1]}
+              volume={6}
+              color="#F5E8D0"
+              opacity={0.6}
+              speed={0.1}
+              growth={0.4}
+              concentrate="random"
+            />
+          </group>
+          <group ref={cloud2Ref}>
+            <Cloud
+              seed={2}
+              segments={20}
+              bounds={[3.5, 1.5, 1]}
+              volume={6}
+              color="#F5E8D0"
+              opacity={0.55}
+              speed={0.1}
+              growth={0.4}
+              concentrate="random"
+            />
+          </group>
+        </group>
+      </Clouds>
+
       <group rotation={[0, 0, 0.5]}>
         <FloatingCan
           ref={canRef}
@@ -138,37 +172,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         >
           <pointLight intensity={30} color="#E5A04A" decay={0.6} />
         </FloatingCan>
-      </group>
-
-      <group ref={cloudsRef}>
-        <group ref={cloud1Ref}>
-          <Cloud
-            position={[0, 0, 0]}
-            seed={1}
-            segments={20}
-            bounds={[3, 1.5, 1]}
-            volume={4}
-            color="#F5E8D0"
-            opacity={0.55}
-            speed={0.1}
-            growth={0.3}
-            concentrate="random"
-          />
-        </group>
-        <group ref={cloud2Ref}>
-          <Cloud
-            position={[0, 0, 0]}
-            seed={2}
-            segments={20}
-            bounds={[3.5, 1.5, 1]}
-            volume={4}
-            color="#F5E8D0"
-            opacity={0.5}
-            speed={0.1}
-            growth={0.3}
-            concentrate="random"
-          />
-        </group>
       </group>
 
       <group ref={wordsRef}>

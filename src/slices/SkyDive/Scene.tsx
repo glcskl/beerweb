@@ -40,10 +40,10 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
     gsap.set(cloudsRef.current.position, { z: 0, y: 0, x: 0 });
 
     const wordPositions: Array<[number, number, number]> = [
-      [-1.1, 0.6, 0],
-      [1.1, 0.6, 0],
-      [-1.1, -0.6, 0],
-      [1.1, -0.6, 0],
+      [-1.5, 0, 0],
+      [-0.4, 0, 0],
+      [0.6, 0, 0],
+      [1.6, 0, 0],
     ];
     wordsRef.current.children.forEach((word, i) => {
       const [x, y, z] = wordPositions[i] || [0, 0, 0];
@@ -117,7 +117,7 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         {
           keyframes: [
             { x: 0, y: 0, z: -1 },
-            { x: -2, y: 1, z: -8 },
+            { x: -2, y: 0, z: -8 },
           ],
           stagger: 0.3,
         },
@@ -205,7 +205,7 @@ function ThreeText({
   return words.map((word: string, wordIndex: number) => (
     <Text
       key={`${wordIndex}-${word}`}
-      scale={isDesktop ? 0.45 : 0.32}
+      scale={isDesktop ? 0.32 : 0.22}
       color={color}
       font="/fonts/Alpino-Variable.woff"
       fontWeight={900}

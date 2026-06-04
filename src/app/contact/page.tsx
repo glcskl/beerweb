@@ -4,27 +4,25 @@ import Link from "next/link";
 
 const contactItems = [
   {
-    label: "Пивоварня",
+    label: "Telegram",
     value: (
-      <span>
-        г. Псков
-        <br />
-        ул. Хмельная, 7
-      </span>
+      <a
+        href="https://t.me/PozitiveVasilev"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="font-semibold text-[#E5A04A] transition-colors hover:text-[#F5C97D]"
+      >
+        @PozitiveVasilev
+      </a>
     ),
     icon: (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
+        fill="currentColor"
         className="size-6 shrink-0"
       >
-        <path d="M12 22s-8-7.5-8-13a8 8 0 1 1 16 0c0 5.5-8 13-8 13z" />
-        <circle cx="12" cy="9" r="3" />
+        <path d="M9.78 18.65l.28-4.23 7.68-6.92c.34-.31-.07-.46-.52-.19L7.74 13.3 3.64 12c-.88-.25-.89-.86.2-1.3l15.97-6.16c.73-.33 1.43.18 1.15 1.3l-2.72 12.81c-.19.91-.74 1.13-1.5.71L12.6 16.3l-1.99 1.93c-.23.23-.42.42-.83.42z" />
       </svg>
     ),
   },
@@ -32,10 +30,10 @@ const contactItems = [
     label: "Телефон",
     value: (
       <a
-        href="tel:+78112123456"
+        href="tel:+79857643822"
         className="font-semibold text-[#E5A04A] transition-colors hover:text-[#F5C97D]"
       >
-        +7 (8112) 12-34-56
+        +7 (985) 764-38-22
       </a>
     ),
     icon: (
@@ -54,13 +52,15 @@ const contactItems = [
     ),
   },
   {
-    label: "E-mail",
+    label: "Untappd",
     value: (
       <a
-        href="mailto:info@breezinghead.ru"
+        href="https://untappd.com/Breezinghead"
+        target="_blank"
+        rel="noopener noreferrer"
         className="font-semibold text-[#E5A04A] transition-colors hover:text-[#F5C97D]"
       >
-        info@breezinghead.ru
+        untappd.com/Breezinghead
       </a>
     ),
     icon: (
@@ -74,33 +74,11 @@ const contactItems = [
         strokeLinejoin="round"
         className="size-6 shrink-0"
       >
-        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-        <polyline points="22,6 12,13 2,6" />
-      </svg>
-    ),
-  },
-  {
-    label: "Время работы",
-    value: (
-      <span>
-        Пн – Пт: 10:00 – 22:00
-        <br />
-        Сб – Вс: 12:00 – 02:00
-      </span>
-    ),
-    icon: (
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className="size-6 shrink-0"
-      >
-        <circle cx="12" cy="12" r="10" />
-        <polyline points="12 6 12 12 16 14" />
+        <path d="M17 11h1a3 3 0 0 1 0 6h-1" />
+        <path d="M9 12v6" />
+        <path d="M13 12v6" />
+        <path d="M14 7.5c-1 0-1.44.5-3 .5s-2-.5-3-.5-1.72.5-2.5.5a2.5 2.5 0 0 1 0-5c.78 0 1.57.92 3 .5 1.43-.42 1.5-.5 2.5-.5a2.5 2.5 0 0 1 0 5c-.28 0-.54-.09-.5-.5" />
+        <path d="M5 8v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V8" />
       </svg>
     ),
   },
@@ -160,9 +138,15 @@ export default function ContactPage() {
           Свяжитесь с нами
         </h1>
 
+        <p className="max-w-2xl text-balance text-center text-base leading-relaxed text-[#F5E8D0] md:text-lg">
+          Мы забрались в самую глубь Псковской области, поближе к чистейшей
+          воде и диким садам, чтобы делать для вас вкуснейшее{" "}
+          <span className="font-bold text-[#E5A04A]">пиво и сидр</span>.
+        </p>
+
         <div className="my-2 h-[2px] w-32 bg-gradient-to-r from-transparent via-[#F5C97D] to-transparent" />
 
-        <div className="grid w-full gap-4 md:grid-cols-2">
+        <div className="grid w-full gap-4 md:grid-cols-3">
           {contactItems.map((item) => (
             <ContactItem
               key={item.label}
@@ -173,11 +157,15 @@ export default function ContactPage() {
           ))}
         </div>
 
+        <p className="mt-2 text-center text-sm italic text-[#F5C97D]/80 md:text-base">
+          пиши конечно только хорошее
+        </p>
+
         <Link
           href="/"
-          className="mt-6 inline-flex w-full max-w-md items-center justify-center rounded-xl bg-[#E5A04A] px-5 py-4 text-center text-lg font-bold uppercase tracking-wide text-[#1A0F08] transition-colors duration-150 hover:bg-[#F5C97D] md:text-xl"
+          className="mt-4 inline-flex w-full max-w-md items-center justify-center rounded-xl bg-[#E5A04A] px-5 py-4 text-center text-lg font-bold uppercase tracking-wide text-[#1A0F08] transition-colors duration-150 hover:bg-[#F5C97D] md:text-xl"
         >
-          Закрыть
+          На главную
         </Link>
       </div>
     </main>

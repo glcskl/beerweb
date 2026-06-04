@@ -1,7 +1,7 @@
 "use client";
 
 import { Content } from "@prismicio/client";
-import { Cloud, Clouds, Environment, Text } from "@react-three/drei";
+import { Cloud, Clouds, Text } from "@react-three/drei";
 import { useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
@@ -178,8 +178,9 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         {sentence && <ThreeText sentence={sentence} color="#E5A04A" />}
       </group>
 
-      <ambientLight intensity={2} color="#F5E8D0" />
-      <Environment files="/hdr/field.hdr" environmentIntensity={1.5} />
+      <ambientLight intensity={2.5} color="#F5E8D0" />
+      <directionalLight position={[5, 5, 5]} intensity={1.2} color="#F5E8D0" />
+      <directionalLight position={[-5, -3, 2]} intensity={0.6} color="#E5A04A" />
     </group>
   );
 }

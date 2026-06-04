@@ -1,8 +1,8 @@
 "use client";
 
 import { Content } from "@prismicio/client";
-import { Environment, Text } from "@react-three/drei";
-import { forwardRef, useRef } from "react";
+import { Cloud, Environment, Text } from "@react-three/drei";
+import { useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -26,16 +26,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
   const cloudsRef = useRef<THREE.Group>(null);
   const wordsRef = useRef<THREE.Group>(null);
 
-  const ANGLE = 75 * (Math.PI / 180);
-
-  const getXPosition = (distance: number) => distance * Math.cos(ANGLE);
-  const getYPosition = (distance: number) => distance * Math.sin(ANGLE);
-
-  const getXYPositions = (distance: number) => ({
-    x: getXPosition(distance),
-    y: getYPosition(-1 * distance),
-  });
-
   useGSAP(() => {
     if (
       !cloudsRef.current ||
@@ -46,14 +36,12 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
     )
       return;
 
-    gsap.set(cloudsRef.current.position, { z: 10 });
-    gsap.set(canRef.current.position, {
-      ...getXYPositions(-4),
-    });
+    gsap.set(canRef.current.position, { x: -1.04, y: -3.86, z: 0 });
+    gsap.set(cloudsRef.current.position, { z: 0, y: 0, x: 0 });
 
     gsap.set(
       wordsRef.current.children.map((word) => word.position),
-      { ...getXYPositions(7), z: 2 },
+      { x: 0, y: 0, z: 0 },
     );
 
     gsap.to(canRef.current.rotation, {
@@ -63,29 +51,38 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
       ease: "none",
     });
 
-    const DISTANCE = 15;
-    const DURATION = 6;
+    const startX = 4.5;
+    const endX = -4.5;
+    const startY1 = 2.5;
+    const endY1 = -2.5;
+    const startY2 = -1.5;
+    const endY2 = -6.5;
+    const DURATION = 8;
 
-    gsap.set([cloud2Ref.current.position, cloud1Ref.current.position], {
-      ...getXYPositions(DISTANCE),
-    });
+    gsap.set(cloud1Ref.current.position, { x: startX, y: startY1, z: 0 });
+    gsap.set(cloud2Ref.current.position, { x: startX, y: startY2, z: 0 });
 
-    gsap.to(cloud1Ref.current.position, {
-      y: `+=${getYPosition(DISTANCE * 2)}`,
-      x: `+=${getXPosition(DISTANCE * -2)}`,
-      ease: "none",
-      repeat: -1,
-      duration: DURATION,
-    });
+    const animateCloud = (
+      ref: THREE.Group,
+      startY: number,
+      endY: number,
+      delay: number,
+    ) => {
+      gsap.to(ref.position, {
+        x: endX,
+        y: endY,
+        duration: DURATION,
+        ease: "none",
+        repeat: -1,
+        delay,
+        onRepeat: () => {
+          gsap.set(ref.position, { x: startX, y: startY });
+        },
+      });
+    };
 
-    gsap.to(cloud2Ref.current.position, {
-      y: `+=${getYPosition(DISTANCE * 2)}`,
-      x: `+=${getXPosition(DISTANCE * -2)}`,
-      ease: "none",
-      repeat: -1,
-      delay: DURATION / 2,
-      duration: DURATION,
-    });
+    animateCloud(cloud1Ref.current, startY1, endY1, 0);
+    animateCloud(cloud2Ref.current, startY2, endY2, DURATION / 2);
 
     const scrollTl = gsap.timeline({
       scrollTrigger: {
@@ -103,35 +100,34 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         overwrite: "auto",
         duration: 0.1,
       })
-      .to(cloudsRef.current.position, { z: 0, duration: 0.3 }, 0)
       .to(canRef.current.position, {
         x: 0,
         y: 0,
         duration: 0.3,
         ease: "back.out(1.7)",
-      })
+      }, 0)
       .to(
         wordsRef.current.children.map((word) => word.position),
         {
           keyframes: [
             { x: 0, y: 0, z: -1 },
-            { ...getXYPositions(-7), z: -7 },
+            { x: -1, y: 1, z: -7 },
           ],
           stagger: 0.3,
         },
         0,
       )
       .to(canRef.current.position, {
-        ...getXYPositions(4),
+        x: 1.04,
+        y: 3.86,
         duration: 0.5,
         ease: "back.in(1.7)",
       })
-      .to(cloudsRef.current.position, { z: 7, duration: 0.5 });
+      .to(cloudsRef.current.position, { z: 5, duration: 0.5 });
   });
 
   return (
     <group ref={groupRef}>
-      {/* Can */}
       <group rotation={[0, 0, 0.5]}>
         <FloatingCan
           ref={canRef}
@@ -144,18 +140,41 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         </FloatingCan>
       </group>
 
-      {/* Clouds (procedural spheres) */}
       <group ref={cloudsRef}>
-        <ProceduralCloud ref={cloud1Ref} />
-        <ProceduralCloud ref={cloud2Ref} />
+        <group ref={cloud1Ref}>
+          <Cloud
+            position={[0, 0, 0]}
+            seed={1}
+            segments={20}
+            bounds={[3, 1.5, 1]}
+            volume={4}
+            color="#F5E8D0"
+            opacity={0.55}
+            speed={0.1}
+            growth={0.3}
+            concentrate="random"
+          />
+        </group>
+        <group ref={cloud2Ref}>
+          <Cloud
+            position={[0, 0, 0]}
+            seed={2}
+            segments={20}
+            bounds={[3.5, 1.5, 1]}
+            volume={4}
+            color="#F5E8D0"
+            opacity={0.5}
+            speed={0.1}
+            growth={0.3}
+            concentrate="random"
+          />
+        </group>
       </group>
 
-      {/* Text */}
       <group ref={wordsRef}>
         {sentence && <ThreeText sentence={sentence} color="#E5A04A" />}
       </group>
 
-      {/* Lights */}
       <ambientLight intensity={2} color="#F5E8D0" />
       <Environment files="/hdr/field.hdr" environmentIntensity={1.5} />
     </group>
@@ -170,8 +189,6 @@ function ThreeText({
   color?: string;
 }) {
   const words = sentence.toUpperCase().split(" ");
-
-  const material = new THREE.MeshLambertMaterial();
   const isDesktop = useMediaQuery("(min-width: 950px)", true);
 
   return words.map((word: string, wordIndex: number) => (
@@ -179,7 +196,6 @@ function ThreeText({
       key={`${wordIndex}-${word}`}
       scale={isDesktop ? 1 : 0.5}
       color={color}
-      material={material}
       font="/fonts/Alpino-Variable.woff"
       fontWeight={900}
       anchorX={"center"}
@@ -190,30 +206,3 @@ function ThreeText({
     </Text>
   ));
 }
-
-type ProceduralCloudProps = {};
-
-const ProceduralCloud = forwardRef<THREE.Group, ProceduralCloudProps>(
-  function ProceduralCloud(_props, ref) {
-    return (
-      <group ref={ref}>
-        <mesh position={[0, 0, 0]}>
-          <sphereGeometry args={[1.2, 12, 8]} />
-          <meshLambertMaterial color="#F5E8D0" />
-        </mesh>
-        <mesh position={[0.9, 0.2, 0.1]}>
-          <sphereGeometry args={[0.8, 12, 8]} />
-          <meshLambertMaterial color="#F5E8D0" />
-        </mesh>
-        <mesh position={[-0.8, 0.1, -0.2]}>
-          <sphereGeometry args={[0.9, 12, 8]} />
-          <meshLambertMaterial color="#F5E8D0" />
-        </mesh>
-        <mesh position={[0.4, 0.6, 0.2]}>
-          <sphereGeometry args={[0.7, 12, 8]} />
-          <meshLambertMaterial color="#F5E8D0" />
-        </mesh>
-      </group>
-    );
-  },
-);

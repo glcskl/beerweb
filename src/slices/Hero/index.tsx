@@ -7,13 +7,12 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { View } from "@react-three/drei";
-
+import { useEffect, useState } from "react";
 import { Bounded } from "@/components/Bounded";
 import Button from "@/components/Button";
 import { TextSplitter } from "@/components/TextSplitter";
 import Scene from "./Scene";
 import { Bubbles } from "./Bubbles";
-import { useStore } from "@/hooks/useStore";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
@@ -27,13 +26,15 @@ export type HeroProps = SliceComponentProps<Content.HeroSlice>;
  * Component for "Hero" Slices.
  */
 const Hero = ({ slice }: HeroProps): JSX.Element => {
-  const ready = useStore((state) => state.ready);
-  const isDesktop = useMediaQuery("(min-width: 768px)", true);
+  const mediaIsDesktop = useMediaQuery("(min-width: 768px)", false);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    setIsDesktop(mediaIsDesktop);
+  }, [mediaIsDesktop]);
 
   useGSAP(
     () => {
-      if (!ready && isDesktop) return;
-
       const introTl = gsap.timeline();
 
       introTl
@@ -76,10 +77,10 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
         .fromTo(
           "body",
           {
-            backgroundColor: "#FDE047",
+            backgroundColor: "#1A0F08",
           },
           {
-            backgroundColor: "#D9F99D",
+            backgroundColor: "#2A1810",
             overwrite: "auto",
           },
           1,
@@ -98,42 +99,47 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
           opacity: 0,
         });
     },
-    { dependencies: [ready, isDesktop] },
+    { dependencies: [isDesktop] },
   );
 
   return (
     <Bounded
       data-slice-type={slice.slice_type}
-      data-slice-variation={slice.variation}
-      className="hero opacity-0"
+      data-slice-variation={slice.slice_variation}
+      className="hero"
     >
-      {isDesktop && (
-        <View className="hero-scene pointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block">
-          <Scene />
-          <Bubbles count={300} speed={2} repeat={true} />
-        </View>
-      )}
+      <View
+        key="hero-scene"
+        className="hero-scene pointer-events-none sticky top-0 z-50 -mt-[100vh] hidden h-screen w-screen md:block"
+      >
+        {isDesktop && (
+          <>
+            <Scene />
+            <Bubbles count={300} speed={2} repeat={true} />
+          </>
+        )}
+      </View>
 
       <div className="grid">
         <div className="grid h-screen place-items-center">
           <div className="grid auto-rows-min place-items-center text-center">
-            <h1 className="hero-header text-7xl font-black uppercase leading-[.8] text-orange-500 md:text-[9rem] lg:text-[13rem]">
+            <h1 className="hero-header text-7xl font-black uppercase leading-[.8] text-[#E5A04A] md:text-[9rem] lg:text-[13rem]">
               <TextSplitter
                 text={asText(slice.primary.heading)}
                 wordDisplayStyle="block"
                 className="hero-header-word"
               />
             </h1>
-            <div className="hero-subheading mt-12 text-5xl font-semibold text-sky-950 lg:text-6xl">
+            <div className="hero-subheading mt-12 text-5xl font-semibold text-[#F5E8D0] lg:text-6xl">
               <PrismicRichText field={slice.primary.subheading} />
             </div>
-            <div className="hero-body text-2xl font-normal text-sky-950">
+            <div className="hero-body text-2xl font-normal text-[#F5E8D0]">
               <PrismicRichText field={slice.primary.body} />
             </div>
             <Button
               buttonLink={slice.primary.button_link}
               buttonText={slice.primary.button_text}
-              hrefOverride="https://www.linkedin.com/in/theshibaprasad/"
+              hrefOverride="/contact"
               className="hero-button mt-12"
             />
           </div>
@@ -145,10 +151,10 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
             field={slice.primary.cans_image}
           />
           <div>
-            <h2 className="text-side-heading text-balance text-6xl font-black uppercase text-sky-950 lg:text-8xl">
+            <h2 className="text-side-heading text-balance text-6xl font-black uppercase text-[#E5A04A] lg:text-8xl">
               <TextSplitter text={asText(slice.primary.second_heading)} />
             </h2>
-            <div className="text-side-body mt-4 max-w-xl text-balance text-xl font-normal text-sky-950">
+            <div className="text-side-body mt-4 max-w-xl text-balance text-xl font-normal text-[#F5E8D0]">
               <PrismicRichText field={slice.primary.second_body} />
             </div>
           </div>

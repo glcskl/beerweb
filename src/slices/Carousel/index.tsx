@@ -23,15 +23,15 @@ const FLAVORS: {
   color: string;
   name: string;
 }[] = [
-  { flavor: "blackCherry", color: "#710523", name: "Coca Cola Classic" },
-  { flavor: "grape", color: "#994C00", name: "Fanta" },
-  { flavor: "lemonLime", color: "#164405", name: "Sprite" },
+  { flavor: "blackCherry", color: "#3D2417", name: "Светлое" },
+  { flavor: "grape", color: "#A86F2E", name: "Пшеничное" },
+  { flavor: "lemonLime", color: "#7A4A1F", name: "IPA Хмельное" },
   {
     flavor: "strawberryLemonade",
-    color: "#001A33",
-    name: "Thumbs Up",
+    color: "#0F0805",
+    name: "Тёмный Стаут",
   },
-  { flavor: "watermelon", color: "#CC6600", name: "Minute Maid Orange" },
+  { flavor: "watermelon", color: "#C9783F", name: "Ягодный Эль" },
 ];
 
 /**
@@ -84,11 +84,11 @@ const Carousel = ({ slice }: CarouselProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="carousel relative grid h-screen grid-rows-[auto,4fr,auto] justify-center overflow-hidden bg-white py-12 text-white"
+      className="carousel relative grid h-screen grid-rows-[auto,4fr,auto] justify-center overflow-hidden bg-[#1A0F08] py-12 text-[#F5E8D0]"
     >
-      <div className="background pointer-events-none absolute inset-0 bg-[#710523] opacity-50" />
+      <div className="background pointer-events-none absolute inset-0 bg-[#0F0805] opacity-50" />
 
-      <WavyCircles className="absolute left-1/2 top-1/2 h-[120vmin] -translate-x-1/2 -translate-y-1/2 text-[#710523]" />
+      <WavyCircles className="absolute left-1/2 top-1/2 h-[120vmin] -translate-x-1/2 -translate-y-1/2 text-[#E5A04A]" />
 
       <h2 className="relative text-center text-5xl font-bold">
         <PrismicText field={slice.primary.heading} />
@@ -130,15 +130,6 @@ const Carousel = ({ slice }: CarouselProps): JSX.Element => {
       <div className="text-area relative mx-auto text-center">
         <div className="text-wrapper text-4xl font-medium">
           <p>{FLAVORS[currentFlavorIndex].name}</p>
-        </div>
-        <div className="mt-2 text-2xl font-normal opacity-90">
-          <p className="flex items-center justify-center gap-2">
-            <span>12 cans -</span>
-            <span className="inline-flex items-center gap-1">
-              <span className="inline-block align-middle">₹</span>
-              <span className="inline-block align-middle">599</span>
-            </span>
-          </p>
         </div>
       </div>
     </section>

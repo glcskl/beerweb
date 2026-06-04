@@ -21,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={alpino.variable}>
-      <body className="overflow-x-hidden bg-yellow-300">
+    <html lang="ru" className={alpino.variable}>
+      <body className="overflow-x-hidden bg-[#1A0F08]">
         <Header />
         <main>
           {children}

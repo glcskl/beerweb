@@ -1,8 +1,8 @@
 "use client";
 
 import { Content } from "@prismicio/client";
-import { Cloud, Clouds, Environment, Text } from "@react-three/drei";
-import { useRef } from "react";
+import { Environment, Text } from "@react-three/drei";
+import { forwardRef, useRef } from "react";
 import * as THREE from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -46,7 +46,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
     )
       return;
 
-    // Set initial positions
     gsap.set(cloudsRef.current.position, { z: 10 });
     gsap.set(canRef.current.position, {
       ...getXYPositions(-4),
@@ -57,7 +56,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
       { ...getXYPositions(7), z: 2 },
     );
 
-    // Spinning can
     gsap.to(canRef.current.rotation, {
       y: Math.PI * 2,
       duration: 1.7,
@@ -65,7 +63,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
       ease: "none",
     });
 
-    // Infinite cloud movement
     const DISTANCE = 15;
     const DURATION = 6;
 
@@ -102,7 +99,7 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
 
     scrollTl
       .to("body", {
-        backgroundColor: "#C0F0F5",
+        backgroundColor: "#2A1810",
         overwrite: "auto",
         duration: 0.1,
       })
@@ -143,23 +140,23 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
           floatIntensity={3}
           floatSpeed={3}
         >
-          <pointLight intensity={30} color="#8C0413" decay={0.6} />
+          <pointLight intensity={30} color="#E5A04A" decay={0.6} />
         </FloatingCan>
       </group>
 
-      {/* Clouds */}
-      <Clouds ref={cloudsRef}>
-        <Cloud ref={cloud1Ref} bounds={[10, 10, 2]} />
-        <Cloud ref={cloud2Ref} bounds={[10, 10, 2]} />
-      </Clouds>
+      {/* Clouds (procedural spheres) */}
+      <group ref={cloudsRef}>
+        <ProceduralCloud ref={cloud1Ref} />
+        <ProceduralCloud ref={cloud2Ref} />
+      </group>
 
       {/* Text */}
       <group ref={wordsRef}>
-        {sentence && <ThreeText sentence={sentence} color="#F97315" />}
+        {sentence && <ThreeText sentence={sentence} color="#E5A04A" />}
       </group>
 
       {/* Lights */}
-      <ambientLight intensity={2} color="#9DDEFA" />
+      <ambientLight intensity={2} color="#F5E8D0" />
       <Environment files="/hdr/field.hdr" environmentIntensity={1.5} />
     </group>
   );
@@ -187,9 +184,80 @@ function ThreeText({
       fontWeight={900}
       anchorX={"center"}
       anchorY={"middle"}
-      characters="ABCDEFGHIJKLMNOPQRSTUVWXYZ!,.?'"
+      characters="ABCDEFGHIJKLMNOPQRSTUVWXYZАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ!,.?'"
     >
       {word}
     </Text>
   ));
 }
+
+type ProceduralCloudProps = {};
+
+const ProceduralCloud = forwardRef<THREE.Group, ProceduralCloudProps>(
+  function ProceduralCloud(_props, ref) {
+    return (
+      <group ref={ref}>
+        <mesh position={[0, 0, 0]}>
+          <sphereGeometry args={[1.2, 16, 12]} />
+          <meshStandardMaterial
+            color="#F5E8D0"
+            roughness={1}
+            metalness={0}
+            transparent
+            opacity={0.85}
+          />
+        </mesh>
+        <mesh position={[0.9, 0.2, 0.1]}>
+          <sphereGeometry args={[0.8, 16, 12]} />
+          <meshStandardMaterial
+            color="#F5E8D0"
+            roughness={1}
+            metalness={0}
+            transparent
+            opacity={0.85}
+          />
+        </mesh>
+        <mesh position={[-0.8, 0.1, -0.2]}>
+          <sphereGeometry args={[0.9, 16, 12]} />
+          <meshStandardMaterial
+            color="#F5E8D0"
+            roughness={1}
+            metalness={0}
+            transparent
+            opacity={0.85}
+          />
+        </mesh>
+        <mesh position={[0.3, 0.7, 0.2]}>
+          <sphereGeometry args={[0.7, 16, 12]} />
+          <meshStandardMaterial
+            color="#F5E8D0"
+            roughness={1}
+            metalness={0}
+            transparent
+            opacity={0.85}
+          />
+        </mesh>
+        <mesh position={[-0.4, -0.5, 0.1]}>
+          <sphereGeometry args={[0.8, 16, 12]} />
+          <meshStandardMaterial
+            color="#F5E8D0"
+            roughness={1}
+            metalness={0}
+            transparent
+            opacity={0.85}
+          />
+        </mesh>
+        <mesh position={[0.6, -0.4, -0.1]}>
+          <sphereGeometry args={[0.6, 16, 12]} />
+          <meshStandardMaterial
+            color="#F5E8D0"
+            roughness={1}
+            metalness={0}
+            transparent
+            opacity={0.85}
+          />
+        </mesh>
+      </group>
+    );
+  },
+);

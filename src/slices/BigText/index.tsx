@@ -14,16 +14,16 @@ const BigText = ({ slice }: BigTextProps): JSX.Element => {
     <section
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="min-h-screen w-screen overflow-hidden bg-[#F40009] text-[#FEE832]"
+      className="min-h-screen w-screen overflow-hidden bg-[#1A0F08] px-4 py-16 text-[#E5A04A] md:py-20"
     >
-      <h2 className="grid w-full gap-[3vw] py-10 text-center font-black uppercase leading-[.7]">
-        <div className="text-[30vw]">Drink</div>
-        <div className="grid gap-[4vw] text-[34vw] md:flex md:text-[11vw]">
-          <span className="inline-block">that </span>
-          <span className="inline-block max-md:text-[27vw]">makes </span>
-          <span className="inline-block max-md:text-[40vw]">you </span>
-        </div>
-        <div className="text-[32vw]">Smile</div>
+      <h2 className="mx-auto flex max-w-6xl flex-col items-center gap-6 text-center font-black uppercase leading-[1.05] md:gap-10">
+        <span className="text-[18vw] leading-none md:text-[16vw]">Пей</span>
+
+        <span className="text-[10vw] leading-none md:text-[6vw]">псковское</span>
+
+        <span className="text-[10vw] leading-none md:text-[6vw]">живое</span>
+
+        <span className="text-[18vw] leading-none md:text-[16vw]">пиво</span>
       </h2>
     </section>
   );

@@ -25,7 +25,7 @@ const AlternatingText = ({ slice }: AlternatingTextProps): JSX.Element => {
     <Bounded
       data-slice-type={slice.slice_type}
       data-slice-variation={slice.variation}
-      className="alternating-text-container relative bg-yellow-300 text-sky-950"
+      className="alternating-text-container relative bg-[#1A0F08] text-[#F5E8D0]"
     >
       <div>
         <div className="relative z-[100] grid">
@@ -42,7 +42,7 @@ const AlternatingText = ({ slice }: AlternatingTextProps): JSX.Element => {
                 className={clsx(
                   index % 2 === 0 ? "col-start-1" : "md:col-start-2",
 
-                  "rounded-lg p-4 backdrop-blur-lg max-md:bg-white/30",
+                  "rounded-lg p-4 backdrop-blur-lg max-md:bg-[#2A1810]/40",
                 )}
               >
                 <h2 className="text-balance text-6xl font-bold">

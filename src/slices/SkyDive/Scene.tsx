@@ -10,7 +10,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 import FloatingCan from "@/components/FloatingCan";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { Bubbles } from "../Hero/Bubbles";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
@@ -41,10 +40,10 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
     gsap.set(cloudsRef.current.position, { z: 0, y: 0, x: 0 });
 
     const wordPositions: Array<[number, number, number]> = [
-      [-2.4, 2.2, 0],
-      [2.0, 1.4, 0.5],
-      [-1.8, -1.0, 0.3],
-      [2.2, -2.4, 0.7],
+      [-1.1, 0.6, 0],
+      [1.1, 0.6, 0],
+      [-1.1, -0.6, 0],
+      [1.1, -0.6, 0],
     ];
     wordsRef.current.children.forEach((word, i) => {
       const [x, y, z] = wordPositions[i] || [0, 0, 0];
@@ -148,7 +147,7 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
               bounds={[3, 1.5, 1]}
               volume={6}
               color="#F5E8D0"
-              opacity={0.6}
+              opacity={0.55}
               speed={0.1}
               growth={0.4}
               concentrate="random"
@@ -161,7 +160,7 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
               bounds={[3.5, 1.5, 1]}
               volume={6}
               color="#F5E8D0"
-              opacity={0.55}
+              opacity={0.5}
               speed={0.1}
               growth={0.4}
               concentrate="random"
@@ -186,8 +185,6 @@ export default function Scene({ sentence, flavor }: SkyDiveProps) {
         {sentence && <ThreeText sentence={sentence} color="#E5A04A" />}
       </group>
 
-      <Bubbles count={80} speed={1.2} bubbleSize={0.04} opacity={0.35} />
-
       <ambientLight intensity={2.5} color="#F5E8D0" />
       <directionalLight position={[5, 5, 5]} intensity={1.2} color="#F5E8D0" />
       <directionalLight position={[-5, -3, 2]} intensity={0.6} color="#E5A04A" />
@@ -208,7 +205,7 @@ function ThreeText({
   return words.map((word: string, wordIndex: number) => (
     <Text
       key={`${wordIndex}-${word}`}
-      scale={isDesktop ? 1 : 0.5}
+      scale={isDesktop ? 0.45 : 0.32}
       color={color}
       font="/fonts/Alpino-Variable.woff"
       fontWeight={900}

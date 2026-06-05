@@ -112,12 +112,9 @@ const Carousel = ({ slice }: CarouselProps): JSX.Element => {
             />
           </Center>
 
-          <Environment
-            files="/hdr/lobby.hdr"
-            environmentIntensity={0.6}
-            environmentRotation={[0, 3, 0]}
-          />
-          <directionalLight intensity={6} position={[0, 1, 1]} />
+          <ambientLight intensity={1.4} color="#F5E8D0" />
+          <directionalLight intensity={4} position={[0, 1, 1]} color="#F5E8D0" />
+          <directionalLight intensity={2} position={[1, 0.5, 0.5]} color="#E5A04A" />
         </View>
         {/* Right */}
         <ArrowButton

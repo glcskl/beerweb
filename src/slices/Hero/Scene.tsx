@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { Environment, OrbitControls } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Group } from "three";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -12,9 +12,11 @@ import { useStore } from "@/hooks/useStore";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger);
 
-type Props = {};
+type Props = {
+  isMobile?: boolean;
+};
 
-export default function Scene({}: Props) {
+export default function Scene({ isMobile = false }: Props) {
   const isReady = useStore((state) => state.isReady);
 
   const can1Ref = useRef<Group>(null);
@@ -45,16 +47,17 @@ export default function Scene({}: Props) {
 
     isReady();
 
-    // Set can starting location
     gsap.set(can1Ref.current.position, { x: -1.5 });
     gsap.set(can1Ref.current.rotation, { z: -0.5 });
 
     gsap.set(can2Ref.current.position, { x: 1.5 });
     gsap.set(can2Ref.current.rotation, { z: 0.5 });
 
-    gsap.set(can3Ref.current.position, { y: 5, z: 2 });
-    gsap.set(can4Ref.current.position, { x: 2, y: 4, z: 2 });
-    gsap.set(can5Ref.current.position, { y: -5 });
+    if (!isMobile) {
+      gsap.set(can3Ref.current.position, { y: 5, z: 2 });
+      gsap.set(can4Ref.current.position, { x: 2, y: 4, z: 2 });
+      gsap.set(can5Ref.current.position, { y: -5 });
+    }
 
     const introTl = gsap.timeline({
       defaults: {
@@ -63,7 +66,7 @@ export default function Scene({}: Props) {
       },
     });
 
-    if (window.scrollY < 20) {
+    if (typeof window !== "undefined" && window.scrollY < 20) {
       introTl
         .from(can1GroupRef.current.position, { y: -5, x: 1 }, 0)
         .from(can1GroupRef.current.rotation, { z: 3 }, 0)
@@ -84,34 +87,27 @@ export default function Scene({}: Props) {
     });
 
     scrollTl
-      // Rotate can group
       .to(groupRef.current.rotation, { y: Math.PI * 2 })
-
-      // Can 1 - black cherry
       .to(can1Ref.current.position, { x: -0.2, y: -0.7, z: -2 }, 0)
       .to(can1Ref.current.rotation, { z: 0.3 }, 0)
-
-      // Can 2 - Lemon Lime
       .to(can2Ref.current.position, { x: 1, y: -0.2, z: -1 }, 0)
-      .to(can2Ref.current.rotation, { z: 0 }, 0)
+      .to(can2Ref.current.rotation, { z: 0 }, 0);
 
-      // Can 3 - Grape
-      .to(can3Ref.current.position, { x: -0.3, y: 0.5, z: -1 }, 0)
-      .to(can3Ref.current.rotation, { z: -0.1 }, 0)
-
-      // Can 4 - Strawberry Lemonade
-      .to(can4Ref.current.position, { x: 0, y: -0.3, z: 0.5 }, 0)
-      .to(can4Ref.current.rotation, { z: 0.3 }, 0)
-
-      // Can 5 -Watermelon
-      .to(can5Ref.current.position, { x: 0.3, y: 0.5, z: -0.5 }, 0)
-      .to(can5Ref.current.rotation, { z: -0.25 }, 0)
-      .to(
-        groupRef.current.position,
-        { x: 1, duration: 3, ease: "sine.inOut" },
-        1.3,
-      );
-  });
+    if (!isMobile) {
+      scrollTl
+        .to(can3Ref.current.position, { x: -0.3, y: 0.5, z: -1 }, 0)
+        .to(can3Ref.current.rotation, { z: -0.1 }, 0)
+        .to(can4Ref.current.position, { x: 0, y: -0.3, z: 0.5 }, 0)
+        .to(can4Ref.current.rotation, { z: 0.3 }, 0)
+        .to(can5Ref.current.position, { x: 0.3, y: 0.5, z: -0.5 }, 0)
+        .to(can5Ref.current.rotation, { z: -0.25 }, 0)
+        .to(
+          groupRef.current.position,
+          { x: 1, duration: 3, ease: "sine.inOut" },
+          1.3,
+        );
+    }
+  }, { dependencies: [isMobile] });
 
   return (
     <group ref={groupRef}>
@@ -130,18 +126,31 @@ export default function Scene({}: Props) {
         />
       </group>
 
-      <FloatingCan ref={can3Ref} flavor="grape" floatSpeed={FLOAT_SPEED} />
+      {!isMobile && (
+        <>
+          <FloatingCan ref={can3Ref} flavor="grape" floatSpeed={FLOAT_SPEED} />
 
-      <FloatingCan
-        ref={can4Ref}
-        flavor="strawberryLemonade"
-        floatSpeed={FLOAT_SPEED}
+          <FloatingCan
+            ref={can4Ref}
+            flavor="strawberryLemonade"
+            floatSpeed={FLOAT_SPEED}
+          />
+
+          <FloatingCan ref={can5Ref} flavor="watermelon" floatSpeed={FLOAT_SPEED} />
+        </>
+      )}
+
+      <ambientLight intensity={isMobile ? 1.8 : 1.2} color="#F5E8D0" />
+      <directionalLight
+        position={[5, 5, 5]}
+        intensity={isMobile ? 1.5 : 1.0}
+        color="#F5E8D0"
       />
-
-      <FloatingCan ref={can5Ref} flavor="watermelon" floatSpeed={FLOAT_SPEED} />
-
-      {/* <OrbitControls /> */}
-      <Environment files="/hdr/lobby.hdr" environmentIntensity={1.5} />
+      <directionalLight
+        position={[-5, -3, 2]}
+        intensity={isMobile ? 1.0 : 0.6}
+        color="#E5A04A"
+      />
     </group>
   );
 }

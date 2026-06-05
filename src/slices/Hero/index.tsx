@@ -125,9 +125,9 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
         key="hero-scene"
         className="hero-scene pointer-events-none sticky top-0 z-50 -mt-[100vh] h-screen w-screen"
       >
-        <Scene />
+        <Scene isMobile={!isDesktop} />
         <Bubbles
-          count={isDesktop ? 300 : 80}
+          count={isDesktop ? 300 : 60}
           speed={2}
           repeat={true}
         />

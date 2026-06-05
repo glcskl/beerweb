@@ -90,7 +90,7 @@ const Carousel = ({ slice }: CarouselProps): JSX.Element => {
 
       <WavyCircles className="absolute left-1/2 top-1/2 h-[120vmin] -translate-x-1/2 -translate-y-1/2 text-[#E5A04A]" />
 
-      <h2 className="relative text-center text-5xl font-bold">
+      <h2 className="relative text-center text-3xl font-bold sm:text-4xl md:text-5xl">
         <PrismicText field={slice.primary.heading} />
       </h2>
 
@@ -125,7 +125,7 @@ const Carousel = ({ slice }: CarouselProps): JSX.Element => {
       </div>
 
       <div className="text-area relative mx-auto text-center">
-        <div className="text-wrapper text-4xl font-medium">
+        <div className="text-wrapper text-2xl font-medium sm:text-3xl md:text-4xl">
           <p>{FLAVORS[currentFlavorIndex].name}</p>
         </div>
       </div>

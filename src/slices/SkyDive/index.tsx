@@ -30,7 +30,7 @@ const SkyDive = ({ slice }: SkyDiveProps): JSX.Element => {
       </View>
 
       <div className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center px-6">
-        <h2 className="text-balance text-center text-5xl font-black uppercase leading-[1.05] tracking-tight text-[#E5A04A] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] md:text-7xl lg:text-8xl">
+        <h2 className="text-balance text-center text-3xl font-black uppercase leading-[1.05] tracking-tight text-[#E5A04A] drop-shadow-[0_4px_24px_rgba(0,0,0,0.6)] sm:text-5xl md:text-7xl lg:text-8xl">
           {slice.primary.sentence}
         </h2>
       </div>

@@ -134,36 +134,36 @@ const Hero = ({ slice }: HeroProps): JSX.Element => {
       </View>
 
       <div className="grid">
-        <div className="grid h-screen place-items-center">
+        <div className="grid h-screen place-items-center px-4">
           <div className="grid auto-rows-min place-items-center text-center">
-            <h1 className="hero-header text-7xl font-black uppercase leading-[.8] text-[#E5A04A] md:text-[9rem] lg:text-[13rem]">
+            <h1 className="hero-header text-5xl font-black uppercase leading-[.8] text-[#E5A04A] sm:text-7xl md:text-[9rem] lg:text-[13rem]">
               <TextSplitter
                 text={asText(slice.primary.heading) ?? ""}
                 wordDisplayStyle="block"
                 className="hero-header-word"
               />
             </h1>
-            <div className="hero-subheading mt-12 text-5xl font-semibold text-[#F5E8D0] lg:text-6xl">
+            <div className="hero-subheading mt-6 text-2xl font-semibold text-[#F5E8D0] sm:mt-12 sm:text-4xl md:text-5xl lg:text-6xl">
               <PrismicRichText field={slice.primary.subheading} />
             </div>
-            <div className="hero-body text-2xl font-normal text-[#F5E8D0]">
+            <div className="hero-body mt-2 max-w-md text-base font-normal text-[#F5E8D0] sm:mt-4 sm:text-xl md:text-2xl">
               <PrismicRichText field={slice.primary.body} />
             </div>
             <Button
               buttonLink={slice.primary.button_link}
               buttonText={slice.primary.button_text}
               hrefOverride="/contact"
-              className="hero-button mt-12"
+              className="hero-button mt-6 sm:mt-12"
             />
           </div>
         </div>
 
-        <div className="text-side relative z-[80] grid h-screen items-center gap-4 md:grid-cols-2">
+        <div className="text-side relative z-[80] grid h-screen items-center gap-4 px-4 md:grid-cols-2">
           <div>
-            <h2 className="text-side-heading text-balance text-6xl font-black uppercase text-[#E5A04A] lg:text-8xl">
+            <h2 className="text-side-heading text-balance text-3xl font-black uppercase text-[#E5A04A] sm:text-5xl md:text-6xl lg:text-8xl">
               <TextSplitter text={asText(slice.primary.second_heading) ?? ""} />
             </h2>
-            <div className="text-side-body mt-4 max-w-xl text-balance text-xl font-normal text-[#F5E8D0]">
+            <div className="text-side-body mt-4 max-w-xl text-balance text-base font-normal text-[#F5E8D0] sm:text-lg md:text-xl">
               <PrismicRichText field={slice.primary.second_body} />
             </div>
           </div>
